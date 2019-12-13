@@ -14,8 +14,8 @@ public class CodeMsg {
 
     //image
     public static CodeMsg IMAGE_EMPTY = new CodeMsg(500210, "图片为空");
-
-
+    public static CodeMsg IMAGE_OVER_MAX = new CodeMsg(500211, "图片大小不得超高5MB");
+    public static CodeMsg IMAGES_OVER_MAX = new CodeMsg(500212, "总图片大小不得超高5MB");
 
     public CodeMsg fillArgs(Object... args){
         int code = this.code;
