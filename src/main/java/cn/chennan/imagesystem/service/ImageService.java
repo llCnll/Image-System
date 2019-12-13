@@ -22,7 +22,7 @@ public class ImageService {
 
         AvatarMessage message = new AvatarMessage();
         message.setId("llCnll");
-        message.setAvatarName(fileName);
+        message.setAvatarName("avatar/"+fileName);
 
         sender.sendAvatarMessage(message);
 

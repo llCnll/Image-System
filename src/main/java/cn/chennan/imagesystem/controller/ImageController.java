@@ -38,7 +38,7 @@ public class ImageController {
         }
         String fileName = UUIDUtil.uuid();
 
-        File dest = new File(imageRepository+"/avatar", fileName);
+        File dest = new File(imageRepository, "avatar/"+fileName);
         try {
             file.transferTo(dest);
         } catch (IOException e) {
