@@ -22,3 +22,11 @@ git.remote-url=git@github.com:llCnll/image-repository.git
 3. jGit提交至远程仓库
 4. 使用消息队列(rabbitmq)将用户ID和文件名称作为消息, 进队, 给别的系统消费.
 ```
+
+## 测试
+### 文件上传
+> index.html
+
+### 文件剪裁
+使用cropbox.js插件进行剪裁
+> cropbox.html

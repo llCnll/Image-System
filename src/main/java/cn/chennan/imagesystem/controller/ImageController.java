@@ -7,6 +7,7 @@ import cn.chennan.imagesystem.util.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,7 +30,7 @@ public class ImageController {
     @Autowired
     ImageService imageService;
 
-    @RequestMapping("avatar")
+    @PostMapping("avatar")
     @ResponseBody
     public Result<String> main(@RequestParam("file")MultipartFile file){
 
@@ -53,7 +54,6 @@ public class ImageController {
             return Result.error(CodeMsg.SERVER_ERROR);
         }
 
-
-        return Result.success("<img src=\"https://github.com/llCnll/image-repository/raw/master/avatar/"+fileName+"\">");
+        return Result.success("https://github.com/llCnll/image-repository/raw/master/avatar/"+fileName);
     }
 }

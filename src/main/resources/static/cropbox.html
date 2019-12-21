@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <script src="js/cropbox.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <title>单文件上传</title>
+    <link rel="stylesheet" href="css/cropbox.css">
+</head>
+<body>
+
+<style>
+    .cropImg {
+        position: relative;
+        width: 100%;
+        height: 300px;
+        background-color: #ccc;
+        color: #fff;
+        line-height: 300px;
+        text-align: center;
+        border: 1px dashed rgba(0, 0, 0, .4);
+    }
+
+    .cropImg > img {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        -webkit-transform: translate3d(-50%, -50%, 0);
+        -moz-transform: translate3d(-50%, -50%, 0);
+        -ms-transform: translate3d(-50%, -50%, 0);
+        -o-transform: translate3d(-50%, -50%, 0);
+        transform: translate3d(-50%, -50%, 0);
+    }
+</style>
+
+
+<div id="cropImg" class="cropImg" style="width: 250px">
+    <span>图片剪切</span>
+    <img src="">
+</div>
+<div class="crop" id="crop" style="width: 250px">
+    <input type="file" accept="image/*" class="crop-input">
+    <div class="crop-mask"></div>
+    <div class="crop-wrap">
+        <div class="crop-wrap-content">
+            <div class="crop-wrap-thum"></div>
+            <div class="crop-wrap-spinner">Loading...</div>
+        </div>
+        <div class="crop-wrap-group">
+            <a href="javascript:;" class="croped">剪切</a>
+        </div>
+        <div class="crop-wrap-group">
+            <a href="javascript:;" class="zoomIn">放大</a>
+            <a href="javascript:;" class="zoomOut">缩小</a>
+        </div>
+
+    </div>
+</div>
+<form enctype="multipart/form-data" id="avatarformid">
+</form>
+<button class="btn btn-primary" data-dismiss="modal" id="submitEditAvatar">提交</button>
+
+<img id="resultId">
+<script>
+    var crop = document.querySelector('#cropImg');
+    var cropNote = crop.querySelector('span');
+    var cropImg = crop.querySelector('img');
+
+    var cropper = new Cropper({
+        el: '#crop',
+        cp: '#cropImg',
+        callback: function (dataURL, dataBlob) {
+
+            cropNote.style.display = 'none';
+            cropImg.style.display = 'block';
+            cropImg.src = dataURL;
+        }
+    });
+
+    /**
+     * 将以base64的图片url数据转换为Blob
+     * @param urlData
+     *            用url方式表示的base64图片数据
+     */
+    function convertBase64UrlToBlob(urlData) {
+
+        var bytes = window.atob(urlData.split(',')[1]);        //去掉url的头，并转换为byte
+
+        //处理异常,将ascii码小于0的转换为大于0
+        var ab = new ArrayBuffer(bytes.length);
+        var ia = new Uint8Array(ab);
+        for (var i = 0; i < bytes.length; i++) {
+            ia[i] = bytes.charCodeAt(i);
+        }
+
+        return new Blob([ab], {type: 'image/png'});
+    }
+
+    // 提交用户头像的图片数据
+    $("#submitEditAvatar").on("click", function () {
+        var form = $('#avatarformid')[0];
+        var formData = new FormData(form);   //这里连带form里的其他参数也一起提交了,如果不需要提交其他参数可以直接FormData无参数的构造函数
+        var base64Codes = $(".cropImg > img").attr("src");
+        formData.append("file", convertBase64UrlToBlob(base64Codes));  //append函数的第一个参数是后台获取数据的参数名,和html标签的input的name属性功能相同
+
+        $.ajax({
+            url: 'http://localhost:8899/avatar',
+            type: 'POST',
+            cache: false,
+            data: formData,
+            processData: false,
+            dataType: "json",
+            contentType: false,
+            success: function (data) {
+                $("#resultId").attr("src", data.data);
+            },
+            error: function () {
+                alert("error");
+            }
+        });
+    });
+
+
+</script>
+
+</body>
+</html>
