@@ -16,12 +16,12 @@ public class ImageService {
     @Autowired
     MQSender sender;
 
-    public boolean saveAvatar(String fileName) throws Exception{
+    public boolean saveAvatar(String id, String fileName) throws Exception{
 
-        GitUtil.commitAndPush("avatar", fileName, "add : llCnll : "+fileName);
+        GitUtil.commitAndPush("avatar", fileName, "add : "+id+" : "+fileName);
 
         AvatarMessage message = new AvatarMessage();
-        message.setId("llCnll");
+        message.setId(id);
         message.setAvatarName("avatar/"+fileName);
 
         sender.sendAvatarMessage(message);

@@ -113,7 +113,10 @@
             dataType: "json",
             contentType: false,
             success: function (data) {
-                $("#resultId").attr("src", data.data);
+                if(data.code == 0)
+                    $("#resultId").attr("src", data.data);
+                else
+                    alert(data.msg);
             },
             error: function () {
                 alert("error");

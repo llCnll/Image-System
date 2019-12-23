@@ -12,10 +12,13 @@ public class CodeMsg {
     public static CodeMsg SUCCESS = new CodeMsg(0, "success");
     public static CodeMsg SERVER_ERROR = new CodeMsg(500100, "服务端异常");
 
+    //登陆模块
+    public static CodeMsg NO_COOKIE = new CodeMsg(500216, "请重新登录");
+
     //image
-    public static CodeMsg IMAGE_EMPTY = new CodeMsg(500210, "图片为空");
-    public static CodeMsg IMAGE_OVER_MAX = new CodeMsg(500211, "图片大小不得超高5MB");
-    public static CodeMsg IMAGES_OVER_MAX = new CodeMsg(500212, "总图片大小不得超高5MB");
+    public static CodeMsg IMAGE_EMPTY = new CodeMsg(500310, "图片为空");
+    public static CodeMsg IMAGE_OVER_MAX = new CodeMsg(500311, "图片大小不得超高5MB");
+    public static CodeMsg IMAGES_OVER_MAX = new CodeMsg(500312, "总图片大小不得超高5MB");
 
     public CodeMsg fillArgs(Object... args){
         int code = this.code;

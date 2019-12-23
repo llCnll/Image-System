@@ -30,3 +30,18 @@ git.remote-url=git@github.com:llCnll/image-repository.git
 ### 文件剪裁
 使用cropbox.js插件进行剪裁
 > cropbox.html
+
+## cros跨域
+[相关文章](https://juejin.im/post/5b99dcca6fb9a05d3154f8b7)
+
+这里使用注解@CrossOrigin  
+```java
+    @CrossOrigin(origins = "http://localhost:8080")
+    @CrossOrigin(origins = "*", allowCredentials = "true")
+```
+
+origins="*" : (默认)表示所有域名均可访问, 也可置顶域名访问
+allowCredentials = "true" : (默认)表示是否允许cookie随请求发送, 如果为`true` 则需要html中的ajax中加入`xhrFields:{withCredentials:true},`  
+里面还有很多参数, 可以具体详见源文件.
+
+因此若无特殊要求可以简写成 `@CrossOrigin`
