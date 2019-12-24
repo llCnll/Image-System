@@ -38,6 +38,34 @@ public class ImageController {
     @Reference
     UserServiceDubbo userService;
 
+    @PostMapping("blog")
+    @ResponseBody
+    @CrossOrigin(origins = "http://localhost:8080", allowCredentials = "true")
+    public String blog(@RequestParam("img")MultipartFile file, HttpServletRequest request) throws Exception {
+
+        if(file.isEmpty()){
+            return "图片为空";
+        }
+        String fileName = UUIDUtil.uuid();
+
+        File dest = new File(imageRepository, "blog/"+fileName);
+        try {
+            file.transferTo(dest);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "服务端异常";
+        }
+
+        try {
+            imageService.saveBlogImage(fileName);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "服务端异常";
+        }
+
+        return "https://github.com/llCnll/image-repository/raw/master/blog/"+fileName;
+    }
+
     @PostMapping("avatar")
     @ResponseBody
     @CrossOrigin(origins = "http://localhost:8080", allowCredentials = "true")

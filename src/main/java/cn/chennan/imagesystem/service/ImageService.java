@@ -28,4 +28,8 @@ public class ImageService {
 
         return true;
     }
+
+    public void saveBlogImage(String fileName) throws Exception{
+        GitUtil.commitAndPush("blog", fileName, "add : "+fileName);
+    }
 }
