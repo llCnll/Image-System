@@ -41,7 +41,7 @@ public class ImageController {
     @PostMapping("blog")
     @ResponseBody
     @CrossOrigin(origins = "http://localhost:8080", allowCredentials = "true")
-    public String blog(@RequestParam("img")MultipartFile file, HttpServletRequest request) throws Exception {
+    public String blog(@RequestParam("img") MultipartFile file) {
 
         if(file.isEmpty()){
             return "图片为空";
@@ -98,7 +98,7 @@ public class ImageController {
         }
 
         try {
-            imageService.saveAvatar(id, fileName);
+            imageService.saveAvatar(token, id, fileName);
         } catch (Exception e) {
             e.printStackTrace();
             return Result.error(CodeMsg.SERVER_ERROR);
@@ -131,7 +131,7 @@ public class ImageController {
         }
 
         try {
-            imageService.saveAvatar("llCnll", fileName);
+            imageService.saveAvatar("123", "llCnll", fileName);
         } catch (Exception e) {
             e.printStackTrace();
             return Result.error(CodeMsg.SERVER_ERROR);

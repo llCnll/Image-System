@@ -8,6 +8,7 @@ import lombok.Data;
  **/
 @Data
 public class AvatarMessage {
+    private String token;
     private String id;
     private String avatarName;
 }
