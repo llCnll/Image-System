@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 public class MQConfig {
 
     public final static String AVATAR_QUEUE = "avatar.queue";
+    public final static String WECHAT_QUEUE = "wechat.queue";
 
     /**
      * Direct模式 交换机模式
@@ -19,5 +20,9 @@ public class MQConfig {
     @Bean
     public Queue avatarQueue(){
         return new Queue(AVATAR_QUEUE,true);
+    }
+    @Bean
+    public Queue weChatQueue(){
+        return new Queue(WECHAT_QUEUE,true);
     }
 }

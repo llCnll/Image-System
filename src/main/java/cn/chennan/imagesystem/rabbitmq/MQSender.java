@@ -21,4 +21,10 @@ public class MQSender {
         log.info("send message : {}", msg);
         amqpTemplate.convertAndSend(MQConfig.AVATAR_QUEUE, msg);
     }
+
+    public void sendWeChatMessage(WeChatMessage message) {
+        String msg = JSONUtil.beanToString(message);
+        log.info("send message : {}", msg);
+        amqpTemplate.convertAndSend(MQConfig.WECHAT_QUEUE, msg);
+    }
 }

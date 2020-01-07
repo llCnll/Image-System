@@ -66,6 +66,47 @@ public class ImageController {
         return "https://github.com/llCnll/image-repository/raw/master/blog/"+fileName;
     }
 
+    @PostMapping("wechat")
+    @ResponseBody
+    @CrossOrigin(origins = "http://localhost:8080", allowCredentials = "true")
+    public Result<String> wechat(@RequestParam("file")MultipartFile file, HttpServletRequest request){
+
+        if(file.isEmpty()){
+            return Result.error(CodeMsg.IMAGE_EMPTY);
+        }
+
+        String paramToken = request.getParameter(JSONUtil.COOKIE_NAME_TOKEN);
+        String cookieToken = getCookieValue(request, JSONUtil.COOKIE_NAME_TOKEN);
+        if(StringUtils.isEmpty(cookieToken) && StringUtils.isEmpty(paramToken)){
+            log.info(CodeMsg.NO_COOKIE.getMsg());
+            return Result.error(CodeMsg.NO_COOKIE);
+        }
+
+        String token = StringUtils.isEmpty(cookieToken) ? paramToken : cookieToken;
+        String id = userService.getByTokenReturnId(token);
+        if(id == null){
+            return Result.error(CodeMsg.NO_COOKIE);
+        }
+        String fileName = UUIDUtil.uuid();
+
+        File dest = new File(imageRepository, "wechat/"+fileName);
+        try {
+            file.transferTo(dest);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return Result.error(CodeMsg.SERVER_ERROR);
+        }
+
+        try {
+            imageService.saveWeChat(id, fileName);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.error(CodeMsg.SERVER_ERROR);
+        }
+
+        return Result.success("https://github.com/llCnll/image-repository/raw/master/wechat/"+fileName);
+    }
+
     @PostMapping("avatar")
     @ResponseBody
     @CrossOrigin(origins = "http://localhost:8080", allowCredentials = "true")
